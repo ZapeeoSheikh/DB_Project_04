@@ -1,0 +1,173 @@
+
+CREATE TABLE Bus_Depot
+(
+  id NUMBER(10) NOT NULL,
+  no_of_busses NUMBER(10) NOT NULL,
+  out_of_service NUMBER(10) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+ALTER TABLE bus_depot
+ADD Name varchar(255);
+
+
+create table Role   -----------------
+( 
+ RoleId number(10) not null,
+ Title varchar(20) not null,
+ Card_Limit number(4) not null
+)
+
+
+CREATE TABLE Bus_Depot ----------------
+(
+  id NUMBER(10) NOT NULL,
+  no_of_busses NUMBER(10) NOT NULL,
+  bus_check_in Varchar2(20),
+  bus_check_out Varchar2(20),
+  out_of_service NUMBER(10) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+
+CREATE TABLE Token ----------------
+(
+  TokenId NUMBER(10) NOT NULL,
+  valid_Time Varchar2(20),
+  num NUMBER(30) NOT NULL,
+  PRIMARY KEY (TokenId)
+)
+
+CREATE TABLE Token_Passenger ----------------
+(
+  id NUMBER(10) NOT NULL,
+  TokenId NUMBER(30) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT FK_Token FOREIGN KEY (TokenId)
+    REFERENCES Token(TokenId)
+)
+CREATE TABLE Route ----------------
+(
+  RouteId NUMBER(10) NOT NULL,
+  R_Number NUMBER(10) NOT NULL,
+  Distance NUMBER(10) NOT NULL,
+  Starting_point varchar(255) not null,
+  Ending_point varchar(255) not null,
+  PRIMARY KEY (RouteId)
+)
+
+
+CREATE TABLE Bus ----------------
+(
+  BusId NUMBER(10) NOT NULL,
+  B_Number NUMBER(10) NOT NULL,
+  Location NUMBER(10) ,
+  departureTime number(20) not null,
+  RouteId NUMBER(10) NOT NULL,
+  PRIMARY KEY (BusId),
+  CONSTRAINT FK_RouteId FOREIGN KEY (RouteId)
+    REFERENCES Route(RouteId)
+)
+
+
+CREATE TABLE Line ----------------
+(
+  LineId NUMBER(10) NOT NULL,
+  Current_Stop Varchar2(30) ,
+  Previous_Stop Varchar2(30) ,
+  Next_Stop Varchar2(30) ,
+  RouteId NUMBER(10) NOT NULL,
+  BusId NUMBER(10) NOT NULL,
+
+  PRIMARY KEY (LineId),
+  CONSTRAINT FK_RId FOREIGN KEY (RouteId)
+    REFERENCES Route(RouteId),
+  CONSTRAINT FK_BusId FOREIGN KEY (BusId)
+    REFERENCES Bus(BusId)
+)
+
+CREATE TABLE Card ----------------
+(
+  CardId NUMBER(10) NOT NULL,
+  Balance NUMBER(10) ,
+  C_Number Number(30) not null ,
+  
+  PRIMARY KEY (CardId)
+  
+)
+
+
+CREATE TABLE Attendent ----------------
+(
+  AttendentId NUMBER(10) NOT NULL,
+  Name Varchar2(30) ,
+  Shift Varchar2(20) ,
+  Address Varchar2(255) ,
+  Cnic Number(30) not null ,
+  Salary Number(6) ,
+
+  BusId Number(30) not null ,
+  CardId Number(30) not null ,
+
+  PRIMARY KEY (AttendentId),
+   CONSTRAINT FK_BId FOREIGN KEY (BusId)
+    REFERENCES Bus(BusId),
+   CONSTRAINT FK_CardId FOREIGN KEY (CardId)
+    REFERENCES Card(CardId)
+  
+)
+
+
+
+CREATE TABLE Driver ----------------
+(
+  DriverId NUMBER(10) NOT NULL,
+  FirstName Varchar2(30) ,
+  LastName Varchar2(30) ,
+  Shift Varchar2(20) ,
+  Address Varchar2(255) ,
+  Cnic Number(30) not null ,
+  Salary Number(6) ,
+
+  BusId Number(30) not null ,
+  CardId Number(30) not null ,
+
+  PRIMARY KEY (DriverId),
+   CONSTRAINT FK_BuId FOREIGN KEY (BusId)
+    REFERENCES Bus(BusId),
+   CONSTRAINT FK_CId FOREIGN KEY (CardId)
+    REFERENCES Card(CardId)
+  
+)
+
+CREATE TABLE Passenger ----------------
+(
+  PassengerId NUMBER(10) NOT NULL,
+
+  BusId Number(30) not null ,
+  CardId Number(30) not null ,
+
+  PRIMARY KEY (PassengerId),
+   CONSTRAINT FK_BubId FOREIGN KEY (BusId)
+    REFERENCES Bus(BusId),
+   CONSTRAINT FK_CaId FOREIGN KEY (CardId)
+    REFERENCES Card(CardId)
+  
+)
+
+CREATE TABLE BusStop ----------------
+(
+  BusStopId NUMBER(10) NOT NULL,
+  Name VarChar2(50) not null ,
+
+  BusId Number(30) not null ,
+  RouteId Number(30) not null ,
+
+  PRIMARY KEY (BusStopId),
+   CONSTRAINT FK_BbId FOREIGN KEY (BusId)
+    REFERENCES Bus(BusId),
+   CONSTRAINT FK_RoId FOREIGN KEY (RouteId)
+    REFERENCES Route(RouteId)
+  
+)
+
